@@ -1,0 +1,2559 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TradeKing Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN SYSTEM — LUXURY DARK TRADING AESTHETIC
+   Gold-on-obsidian, glassmorphism, neon accents
+   ═══════════════════════════════════════════ */
+:root {
+  --obsidian:   #060810;
+  --deep:       #0b0f1e;
+  --navy:       #0f1628;
+  --card:       #131d35;
+  --card2:      #182040;
+  --glass:      rgba(255,255,255,0.03);
+  --glass2:     rgba(255,255,255,0.06);
+  --border:     rgba(255,255,255,0.07);
+  --border2:    rgba(255,255,255,0.12);
+
+  --gold:       #f5c842;
+  --gold2:      #e8a800;
+  --gold3:      #ffd96a;
+  --gold-glow:  rgba(245,200,66,0.15);
+  --gold-dim:   rgba(245,200,66,0.08);
+
+  --green:      #00e5a0;
+  --green2:     #00b87a;
+  --green-glow: rgba(0,229,160,0.12);
+  --red:        #ff4d6d;
+  --red-glow:   rgba(255,77,109,0.12);
+  --blue:       #4d9fff;
+  --blue-glow:  rgba(77,159,255,0.12);
+  --purple:     #b57aff;
+
+  --text:       #eef2ff;
+  --text2:      #8896b3;
+  --text3:      #4a5680;
+  --text4:      #2a3458;
+
+  --r-lg:       18px;
+  --r-md:       12px;
+  --r-sm:       8px;
+
+  --shadow-gold: 0 0 30px rgba(245,200,66,0.2);
+  --shadow-card: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Readex Pro', sans-serif;
+  background: var(--obsidian);
+  color: var(--text);
+  min-height: 100vh;
+  max-width: 430px;
+  margin: 0 auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ANIMATED BG MESH */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 80% 10%, rgba(245,200,66,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 20% 80%, rgba(77,159,255,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(181,122,255,0.02) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ══ SCROLLBAR ══ */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 10px; }
+
+/* ══ UTILITY ══ */
+.flex { display: flex; align-items: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+/* ══ SCREENS ══ */
+.screen { display: none; min-height: 100vh; position: relative; z-index: 1; }
+.screen.active { display: flex; flex-direction: column; }
+
+/* ══════════════════════════════════════════
+   SPLASH SCREEN
+══════════════════════════════════════════ */
+#splash {
+  background: var(--obsidian);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0;
+}
+
+.splash-logo-wrap {
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.splash-ring {
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  background: linear-gradient(var(--obsidian), var(--obsidian)) padding-box,
+              linear-gradient(135deg, var(--gold), transparent, var(--gold2)) border-box;
+  display: flex; align-items: center; justify-content: center;
+  animation: ringPulse 2s ease-in-out infinite;
+  box-shadow: var(--shadow-gold), inset 0 0 40px rgba(245,200,66,0.05);
+}
+
+@keyframes ringPulse {
+  0%,100% { box-shadow: 0 0 20px rgba(245,200,66,0.15); }
+  50% { box-shadow: 0 0 50px rgba(245,200,66,0.35), 0 0 80px rgba(245,200,66,0.1); }
+}
+
+.splash-crown { font-size: 44px; filter: drop-shadow(0 0 12px rgba(245,200,66,0.6)); }
+
+.splash-title {
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.splash-title span { color: var(--gold); }
+.splash-sub {
+  font-size: 12px;
+  color: var(--text3);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 60px;
+}
+
+.splash-btn {
+  width: 260px;
+  padding: 16px;
+  border-radius: 50px;
+  border: none;
+  font-family: 'Readex Pro', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 14px;
+}
+.splash-btn-primary {
+  background: linear-gradient(135deg, var(--gold2), var(--gold), var(--gold3));
+  color: #000;
+  box-shadow: 0 4px 24px rgba(245,200,66,0.35);
+}
+.splash-btn-primary:active { transform: scale(0.97); }
+.splash-btn-secondary {
+  background: var(--glass2);
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  backdrop-filter: blur(10px);
+}
+
+.splash-footer {
+  position: absolute; bottom: 30px;
+  font-size: 10px; color: var(--text4);
+  text-align: center; line-height: 1.8;
+}
+
+/* ══════════════════════════════════════════
+   AUTH SCREENS
+══════════════════════════════════════════ */
+.auth-screen {
+  background: var(--deep);
+  padding: 0;
+  position: relative;
+}
+
+.auth-header {
+  padding: 50px 24px 24px;
+  position: relative;
+}
+
+.auth-back {
+  width: 38px; height: 38px;
+  background: var(--glass2);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(8px);
+}
+
+.auth-title { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+.auth-title span { color: var(--gold); }
+.auth-sub { font-size: 13px; color: var(--text2); }
+
+.auth-body { padding: 0 24px; flex: 1; }
+
+.auth-plan-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 4px;
+  margin-bottom: 24px;
+  gap: 4px;
+}
+.plan-tab {
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text3);
+  transition: all 0.2s;
+  border: none;
+  background: none;
+  font-family: 'Readex Pro', sans-serif;
+  color: var(--text2);
+}
+.plan-tab.active {
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  color: #000;
+  box-shadow: 0 2px 12px rgba(245,200,66,0.25);
+}
+
+.form-group { margin-bottom: 16px; }
+.form-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text3);
+  margin-bottom: 8px;
+  display: block;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.form-input {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 13px 16px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: 'Readex Pro', sans-serif;
+  outline: none;
+  direction: rtl;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-dim);
+}
+.form-input::placeholder { color: var(--text3); }
+select.form-input { cursor: pointer; }
+
+.auth-submit-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: var(--r-md);
+  border: none;
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  color: #000;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: 'Readex Pro', sans-serif;
+  margin-top: 8px;
+  box-shadow: 0 4px 20px rgba(245,200,66,0.3);
+  transition: all 0.2s;
+}
+.auth-submit-btn:active { transform: scale(0.98); opacity: 0.9; }
+
+.auth-switch {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 20px;
+  padding-bottom: 30px;
+}
+.auth-switch span { color: var(--gold); cursor: pointer; font-weight: 600; }
+
+/* PLAN CARDS */
+.plan-cards { margin-bottom: 20px; }
+.plan-card {
+  border-radius: var(--r-lg);
+  border: 1.5px solid var(--border);
+  padding: 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.plan-card.free {
+  background: var(--card);
+}
+.plan-card.pro {
+  background: linear-gradient(135deg, #1a2a10, #0f1a0a);
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(245,200,66,0.1);
+}
+.plan-card.selected { border-color: var(--gold); box-shadow: 0 0 20px rgba(245,200,66,0.15); }
+.plan-badge {
+  position: absolute; top: 12px; left: 12px;
+  font-size: 10px; font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  color: #000;
+}
+.plan-name { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+.plan-price { font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+.plan-price strong { font-size: 22px; color: var(--gold); font-family: 'JetBrains Mono', monospace; }
+.plan-features { list-style: none; }
+.plan-features li {
+  font-size: 12px;
+  color: var(--text2);
+  padding: 3px 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.plan-features li::before { content: '✓'; color: var(--green); font-weight: 700; }
+.plan-features li.locked::before { content: '🔒'; }
+.plan-features li.locked { color: var(--text4); }
+
+/* ══════════════════════════════════════════
+   MAIN APP
+══════════════════════════════════════════ */
+#app { background: var(--obsidian); }
+
+/* STATUS BAR */
+.statusbar {
+  background: rgba(6,8,16,0.95);
+  backdrop-filter: blur(20px);
+  padding: 7px 18px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid var(--border);
+}
+
+/* APP HEADER */
+.app-header {
+  background: rgba(11,15,30,0.9);
+  backdrop-filter: blur(20px);
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 28px;
+  z-index: 100;
+}
+.app-header-inner { display: flex; align-items: center; justify-content: space-between; }
+.app-logo { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; }
+.app-logo span { color: var(--gold); }
+.app-logo sup { font-size: 9px; color: var(--green); font-weight: 700; vertical-align: super; }
+.header-actions { display: flex; gap: 8px; align-items: center; }
+.hdr-btn {
+  width: 35px; height: 35px;
+  background: var(--glass2);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+/* PAGES */
+.page { display: none; padding: 0 0 88px; }
+.page.active { display: block; }
+
+/* ══ HERO CARD ══ */
+.hero-section { padding: 16px 16px 0; }
+.hero-card {
+  border-radius: 22px;
+  background: linear-gradient(135deg, #0f1e3a 0%, #0a1428 50%, #0f1a30 100%);
+  border: 1px solid rgba(77,159,255,0.15);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 150px; height: 150px;
+  background: radial-gradient(circle, rgba(245,200,66,0.12), transparent 70%);
+  pointer-events: none;
+}
+.hero-card::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; left: -20px;
+  width: 100px; height: 100px;
+  background: radial-gradient(circle, rgba(77,159,255,0.08), transparent 70%);
+  pointer-events: none;
+}
+
+.hero-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.hero-greet { font-size: 12px; color: var(--text3); margin-bottom: 3px; }
+.hero-name { font-size: 22px; font-weight: 800; }
+.hero-name .crown { filter: drop-shadow(0 0 6px rgba(245,200,66,0.5)); }
+
+.level-pill {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 3px;
+}
+.level-label {
+  font-size: 10px;
+  color: var(--gold);
+  background: var(--gold-dim);
+  border: 1px solid rgba(245,200,66,0.2);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.level-sub { font-size: 10px; color: var(--text3); }
+
+/* XP SECTION */
+.xp-section { margin-bottom: 16px; }
+.xp-label-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.xp-label { font-size: 11px; color: var(--text3); }
+.xp-val { font-size: 11px; font-weight: 700; color: var(--gold); font-family: 'JetBrains Mono', monospace; }
+.xp-track {
+  height: 5px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+.xp-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--gold2), var(--gold), var(--gold3));
+  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+}
+.xp-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 6px; height: 100%;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  filter: blur(1px);
+}
+
+/* MINI STATS */
+.mini-stats {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+.mini-stat {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 8px;
+  text-align: center;
+  backdrop-filter: blur(4px);
+}
+.mini-stat-icon { font-size: 18px; margin-bottom: 3px; }
+.mini-stat-val { font-size: 17px; font-weight: 800; font-family: 'JetBrains Mono', monospace; color: var(--text); }
+.mini-stat-lbl { font-size: 9px; color: var(--text3); margin-top: 1px; letter-spacing: 0.3px; }
+
+/* ══ SECTION HEADERS ══ */
+.sec-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 16px 10px;
+}
+.sec-head-left { display: flex; align-items: center; gap: 8px; }
+.sec-dot {
+  width: 3px; height: 16px;
+  background: linear-gradient(to bottom, var(--gold), var(--gold2));
+  border-radius: 2px;
+}
+.sec-title { font-size: 14px; font-weight: 700; }
+.sec-link { font-size: 11px; color: var(--gold); }
+
+/* ══ TASKS ══ */
+.tasks-wrap {
+  margin: 0 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.tasks-top {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--glass);
+}
+.tasks-head-title { font-size: 13px; font-weight: 700; }
+.tasks-count {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* PROGRESS BAR FOR TASKS */
+.tasks-progress-bar { height: 2px; background: var(--border); }
+.tasks-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green2), var(--green));
+  transition: width 0.4s ease;
+}
+
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.task-row:last-child { border-bottom: none; }
+.task-row:active { background: var(--glass2); }
+.task-row.done { background: rgba(0,229,160,0.03); }
+
+.task-check-box {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border2);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  transition: all 0.2s;
+}
+.task-row.done .task-check-box {
+  background: var(--green);
+  border-color: var(--green);
+  box-shadow: 0 0 10px rgba(0,229,160,0.4);
+  color: #000;
+  font-weight: 800;
+}
+.task-row.done .task-txt { text-decoration: line-through; color: var(--text3); }
+.task-txt { font-size: 12px; flex: 1; line-height: 1.5; }
+.task-xp-badge {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--gold);
+  background: var(--gold-dim);
+  border: 1px solid rgba(245,200,66,0.15);
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+}
+
+/* ══ TIP CARD ══ */
+.tip-card {
+  margin: 16px;
+  background: linear-gradient(135deg, rgba(0,229,160,0.06), rgba(0,184,122,0.03));
+  border: 1px solid rgba(0,229,160,0.15);
+  border-radius: var(--r-lg);
+  padding: 14px 16px;
+  display: flex;
+  gap: 12px;
+}
+.tip-pulse {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: rgba(0,229,160,0.1);
+  border: 1px solid rgba(0,229,160,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.tip-label { font-size: 10px; color: var(--green); font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
+.tip-text { font-size: 12px; color: var(--text2); line-height: 1.65; }
+
+/* ══ MARKET TICKER ══ */
+.ticker-wrap {
+  margin: 0 16px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.ticker-head {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--glass);
+}
+.ticker-live {
+  width: 6px; height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--green);
+  animation: blink 1.5s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+.ticker-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+}
+.ticker-item {
+  padding: 10px 10px;
+  border-left: 1px solid var(--border);
+  text-align: center;
+}
+.ticker-item:first-child { border-left: none; }
+.ticker-pair { font-size: 9px; color: var(--text3); font-weight: 700; letter-spacing: 0.5px; margin-bottom: 3px; }
+.ticker-price { font-size: 12px; font-weight: 800; font-family: 'JetBrains Mono', monospace; margin-bottom: 2px; }
+.ticker-change { font-size: 9px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+.up { color: var(--green); }
+.dn { color: var(--red); }
+
+/* ══════════════════════════════════════════
+   ROADMAP PAGE
+══════════════════════════════════════════ */
+.page-header {
+  background: rgba(11,15,30,0.95);
+  backdrop-filter: blur(20px);
+  padding: 18px 16px 14px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 28px;
+  z-index: 100;
+}
+.page-header h2 { font-size: 18px; font-weight: 800; margin-bottom: 2px; }
+.page-header p { font-size: 11px; color: var(--text3); }
+
+.overall-card {
+  margin: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px 16px;
+}
+.overall-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.overall-lbl { font-size: 12px; color: var(--text2); }
+.overall-val { font-size: 12px; font-weight: 700; color: var(--blue); font-family: 'JetBrains Mono', monospace; }
+.overall-track { height: 8px; background: var(--border); border-radius: 10px; overflow: hidden; }
+.overall-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), #7abfff);
+  border-radius: 10px;
+  transition: width 0.8s ease;
+}
+
+/* STAGES */
+.stage-wrap { margin: 0 16px 12px; }
+.stage-card {
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.stage-hd {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  position: relative;
+}
+.s1 .stage-hd { background: linear-gradient(135deg, rgba(0,229,160,0.08),rgba(0,184,122,0.03)); }
+.s2 .stage-hd { background: linear-gradient(135deg, rgba(77,159,255,0.08),rgba(59,130,246,0.03)); }
+.s3 .stage-hd { background: linear-gradient(135deg, rgba(181,122,255,0.08),rgba(168,85,247,0.03)); }
+.s4 .stage-hd { background: linear-gradient(135deg, rgba(249,115,22,0.08),rgba(220,80,0,0.03)); }
+.s5 .stage-hd { background: linear-gradient(135deg, rgba(245,200,66,0.10),rgba(232,168,0,0.04)); }
+
+.stage-num-badge {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 900;
+  flex-shrink: 0;
+}
+.s1 .stage-num-badge { background: var(--green); color: #000; }
+.s2 .stage-num-badge { background: var(--blue); color: #000; }
+.s3 .stage-num-badge { background: var(--purple); color: #000; }
+.s4 .stage-num-badge { background: #f97316; color: #000; }
+.s5 .stage-num-badge { background: linear-gradient(135deg,var(--gold2),var(--gold)); color: #000; }
+
+.stage-hd-info { flex: 1; }
+.stage-hd-name { font-size: 14px; font-weight: 700; }
+.stage-hd-meta { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.stage-arrow { font-size: 10px; color: var(--text3); transition: transform 0.25s; }
+.stage-card.open .stage-arrow { transform: rotate(180deg); }
+
+.stage-body { display: none; background: rgba(6,8,16,0.6); }
+.stage-card.open .stage-body { display: block; }
+
+.teacher-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.teacher-row:active { background: var(--glass2); }
+.teacher-avi {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.teacher-name { font-size: 13px; font-weight: 700; color: var(--text); }
+.teacher-meta { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.yt-badge {
+  font-size: 9px;
+  background: rgba(255,0,0,0.15);
+  color: #ff4444;
+  border: 1px solid rgba(255,0,0,0.2);
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.topics-wrap {
+  padding: 12px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border-top: 1px solid var(--border);
+}
+.topic-tag {
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  background: var(--glass);
+}
+
+/* ══════════════════════════════════════════
+   CHANNELS PAGE
+══════════════════════════════════════════ */
+.filter-bar {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 0 16px 14px;
+  scrollbar-width: none;
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+.filt-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  color: var(--text2);
+  white-space: nowrap;
+  cursor: pointer;
+  font-family: 'Readex Pro', sans-serif;
+  transition: all 0.15s;
+  backdrop-filter: blur(8px);
+}
+.filt-btn.active {
+  background: linear-gradient(135deg,var(--gold2),var(--gold));
+  color: #000;
+  border-color: transparent;
+  box-shadow: 0 2px 12px rgba(245,200,66,0.25);
+}
+
+.ch-card {
+  margin: 0 16px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow-card);
+}
+.ch-card:active { border-color: var(--gold-dim); }
+.ch-inner { padding: 14px 16px; display: flex; gap: 12px; }
+.ch-avi {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.ch-name { font-size: 14px; font-weight: 700; }
+.ch-handle { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.ch-subs { font-size: 11px; color: var(--text2); margin-top: 3px; }
+.ch-desc { font-size: 12px; color: var(--text2); line-height: 1.5; margin-top: 6px; }
+.ch-footer {
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ch-lv {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 10px;
+}
+.lv-b { background: rgba(0,229,160,0.1); color: var(--green); }
+.lv-i { background: rgba(77,159,255,0.1); color: var(--blue); }
+.lv-a { background: rgba(181,122,255,0.1); color: var(--purple); }
+.lv-p { background: var(--gold-dim); color: var(--gold); }
+.ch-tags-row { display: flex; gap: 5px; }
+.ch-tag2 {
+  font-size: 10px;
+  color: var(--text3);
+  border: 1px solid var(--border);
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+.ch-open-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,0,0,0.1);
+  color: #ff4444;
+  font-size: 11px; font-weight: 700;
+  border: 1px solid rgba(255,0,0,0.15);
+  padding: 5px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* ══════════════════════════════════════════
+   JOURNAL PAGE
+══════════════════════════════════════════ */
+.journal-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--deep);
+  position: sticky;
+  top: 28px;
+  z-index: 100;
+}
+.j-tab {
+  flex: 1;
+  padding: 13px 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text3);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  border: none;
+  background: none;
+  font-family: 'Readex Pro', sans-serif;
+}
+.j-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+.j-sub-page { display: none; }
+.j-sub-page.active { display: block; }
+
+.jform {
+  margin: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.jform-head {
+  padding: 13px 16px;
+  background: var(--glass);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.jform-row { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+.jform-label { font-size: 10px; color: var(--text3); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 7px; }
+.jform-input {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'Readex Pro', sans-serif;
+  outline: none;
+  direction: rtl;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.jform-input:focus { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold-dim); }
+textarea.jform-input { resize: none; min-height: 72px; line-height: 1.6; }
+.jform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.emotion-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 7px;
+}
+.emo-btn {
+  padding: 8px 6px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  color: var(--text2);
+  font-size: 11px;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'Readex Pro', sans-serif;
+  transition: all 0.15s;
+  line-height: 1.4;
+}
+.emo-btn .emo-ico { font-size: 16px; display: block; margin-bottom: 2px; }
+.emo-btn.sel {
+  background: rgba(181,122,255,0.15);
+  border-color: var(--purple);
+  color: var(--purple);
+}
+
+.rr-display {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+  text-align: center;
+}
+
+.save-trade-btn {
+  margin: 0 16px 16px;
+  width: calc(100% - 32px);
+  padding: 15px;
+  border-radius: var(--r-lg);
+  border: none;
+  background: linear-gradient(135deg, var(--gold2), var(--gold), var(--gold3));
+  color: #000;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: 'Readex Pro', sans-serif;
+  box-shadow: 0 4px 20px rgba(245,200,66,0.3);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.save-trade-btn:active { transform: scale(0.98); }
+
+/* JOURNAL STATS */
+.j-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
+  padding: 0 16px 16px;
+}
+.j-stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px 10px;
+  text-align: center;
+}
+.j-stat-val {
+  font-size: 18px;
+  font-weight: 900;
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 3px;
+}
+.j-stat-lbl { font-size: 9px; color: var(--text3); letter-spacing: 0.3px; }
+
+/* ENTRY CARDS */
+.entries-wrap { padding: 0 16px; }
+.entry-card2 {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.entry-hd {
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+.entry-pair2 {
+  font-size: 16px;
+  font-weight: 900;
+  font-family: 'JetBrains Mono', monospace;
+}
+.entry-res {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 10px;
+}
+.r-win { background: var(--green-glow); color: var(--green); border: 1px solid rgba(0,229,160,0.2); }
+.r-loss { background: var(--red-glow); color: var(--red); border: 1px solid rgba(255,77,109,0.2); }
+.r-be { background: var(--glass2); color: var(--text3); border: 1px solid var(--border); }
+.entry-body { padding: 12px 14px; }
+.entry-row2 { font-size: 11px; color: var(--text3); margin-bottom: 4px; display: flex; gap: 8px; }
+.entry-note2 { font-size: 12px; color: var(--text2); line-height: 1.6; margin-top: 8px; font-style: italic; }
+.entry-emo { font-size: 11px; margin-top: 8px; color: var(--text3); }
+
+.no-entries {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--text3);
+}
+.no-entries .nei { font-size: 40px; margin-bottom: 12px; }
+.no-entries p { font-size: 13px; line-height: 1.8; }
+
+/* ══════════════════════════════════════════
+   RULES PAGE
+══════════════════════════════════════════ */
+.rules-hero {
+  margin: 16px;
+  background: linear-gradient(135deg, #1a0a14, #0f0810);
+  border: 1px solid rgba(255,77,109,0.2);
+  border-radius: var(--r-lg);
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+}
+.warn-icon { font-size: 24px; flex-shrink: 0; }
+.warn-title { font-size: 13px; font-weight: 800; color: var(--red); margin-bottom: 4px; }
+.warn-text { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+.rule-item {
+  margin: 0 16px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s;
+}
+.rule-ico-wrap {
+  width: 44px; height: 44px;
+  border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.rule-num { font-size: 9px; font-weight: 800; color: var(--text4); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+.rule-title2 { font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+.rule-desc2 { font-size: 12px; color: var(--text2); line-height: 1.65; }
+
+.motivate-card {
+  margin: 16px;
+  background: linear-gradient(135deg, #0f2a1a, #081a10);
+  border: 1px solid rgba(0,229,160,0.2);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0,229,160,0.06);
+}
+.mot-crown { font-size: 36px; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(245,200,66,0.5)); }
+.mot-name { font-size: 18px; font-weight: 900; color: var(--gold); margin-bottom: 6px; }
+.mot-sub { font-size: 12px; color: var(--text2); }
+
+/* ══════════════════════════════════════════
+   PROFILE PAGE
+══════════════════════════════════════════ */
+.profile-hero {
+  background: linear-gradient(180deg, var(--navy) 0%, var(--obsidian) 100%);
+  padding: 24px 16px 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.profile-avatar {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px;
+  margin: 0 auto 12px;
+  box-shadow: 0 0 30px rgba(245,200,66,0.25);
+}
+.profile-name { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+.profile-plan {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+.plan-free-badge { background: var(--glass2); color: var(--text2); border: 1px solid var(--border); }
+.plan-pro-badge { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(245,200,66,0.2); }
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
+  padding: 16px;
+}
+.pstat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px;
+  text-align: center;
+}
+.pstat-val { font-size: 20px; font-weight: 900; font-family: 'JetBrains Mono', monospace; color: var(--gold); }
+.pstat-lbl { font-size: 9px; color: var(--text3); margin-top: 2px; letter-spacing: 0.3px; }
+
+/* UPGRADE CARD */
+.upgrade-card {
+  margin: 0 16px 16px;
+  background: linear-gradient(135deg, #1a2a0a, #0f1a06);
+  border: 1.5px solid var(--gold);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  box-shadow: 0 0 25px rgba(245,200,66,0.1);
+}
+.upgrade-title { font-size: 16px; font-weight: 800; color: var(--gold); margin-bottom: 4px; }
+.upgrade-sub { font-size: 12px; color: var(--text2); margin-bottom: 14px; }
+.upgrade-features { margin-bottom: 16px; }
+.upgrade-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text2);
+  padding: 4px 0;
+}
+.upgrade-feature::before { content: '✓'; color: var(--gold); font-weight: 700; }
+.upgrade-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--r-md);
+  border: none;
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  color: #000;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: 'Readex Pro', sans-serif;
+  box-shadow: 0 4px 20px rgba(245,200,66,0.3);
+}
+
+.menu-section { padding: 0 16px 8px; }
+.menu-title { font-size: 10px; color: var(--text4); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 12px 0 8px; }
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.menu-item:last-child { border-bottom: none; }
+.menu-left { display: flex; align-items: center; gap: 12px; }
+.menu-ico {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  background: var(--glass2);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.menu-name { font-size: 13px; font-weight: 600; }
+.menu-sub { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.menu-arrow { font-size: 10px; color: var(--text4); }
+
+.logout-btn {
+  margin: 0 16px 16px;
+  width: calc(100% - 32px);
+  padding: 14px;
+  border-radius: var(--r-md);
+  border: 1px solid rgba(255,77,109,0.2);
+  background: rgba(255,77,109,0.06);
+  color: var(--red);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Readex Pro', sans-serif;
+  transition: all 0.2s;
+}
+.logout-btn:active { background: rgba(255,77,109,0.12); }
+
+/* ══ BOTTOM NAV ══ */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  background: rgba(6,8,16,0.96);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  z-index: 999;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.nav-item {
+  flex: 1;
+  padding: 9px 4px 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--text4);
+  transition: color 0.2s;
+  font-family: 'Readex Pro', sans-serif;
+  position: relative;
+}
+.nav-item.active { color: var(--gold); }
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 28px; height: 2px;
+  background: var(--gold);
+  border-radius: 0 0 4px 4px;
+}
+.nav-ico { font-size: 19px; }
+.nav-lbl { font-size: 9px; font-weight: 600; }
+
+/* ══ TOAST ══ */
+.toast {
+  position: fixed;
+  bottom: 92px; left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  z-index: 9999;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.toast.success { background: var(--green); color: #000; }
+.toast.error { background: var(--red); color: #fff; }
+.toast.info { background: linear-gradient(135deg,var(--gold2),var(--gold)); color: #000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ══ ANIMATIONS ══ */
+@keyframes fadeSlide { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+@keyframes scaleIn { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
+
+.page.active > * { animation: fadeSlide 0.3s ease forwards; }
+.screen.active { animation: scaleIn 0.3s ease forwards; }
+
+/* PRO LOCK OVERLAY */
+.pro-lock {
+  position: relative;
+}
+.pro-lock-overlay {
+  position: absolute; inset: 0;
+  background: rgba(6,8,16,0.85);
+  backdrop-filter: blur(4px);
+  border-radius: var(--r-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 10;
+}
+.plo-icon { font-size: 28px; }
+.plo-text { font-size: 13px; font-weight: 700; color: var(--gold); }
+.plo-sub { font-size: 11px; color: var(--text2); }
+.plo-btn {
+  margin-top: 4px;
+  padding: 8px 20px;
+  background: linear-gradient(135deg,var(--gold2),var(--gold));
+  color: #000;
+  font-size: 12px;
+  font-weight: 800;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'Readex Pro', sans-serif;
+}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════════════════
+     SPLASH SCREEN
+══════════════════════════════════════════ -->
+<div class="screen active" id="splash">
+  <div class="splash-logo-wrap">
+    <div class="splash-ring">
+      <span class="splash-crown">👑</span>
+    </div>
+  </div>
+  <div class="splash-title">Trade<span>King</span></div>
+  <div class="splash-sub">Pro Trading Academy</div>
+
+  <button class="splash-btn splash-btn-primary" onclick="goTo('register')">دەستپێکردن — دروست بکە</button>
+  <button class="splash-btn splash-btn-secondary" onclick="goTo('login')">ئەکاونتم هەیە — داخل ببم</button>
+
+  <div class="splash-footer">
+    TradeKing Pro v2.0<br>
+    ٢٤ مانگ — لە تازەکار بۆ پرۆفێشناڵ
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     REGISTER SCREEN
+══════════════════════════════════════════ -->
+<div class="screen auth-screen" id="register">
+  <div class="auth-header">
+    <div class="auth-back" onclick="goTo('splash')">←</div>
+    <div class="auth-title">ئەکاونت <span>دروست بکە</span></div>
+    <div class="auth-sub">بەخێری دەستپێبکە — ئاوا بکرێ ✨</div>
+  </div>
+  <div class="auth-body" style="overflow-y:auto;flex:1">
+
+    <!-- PLAN SELECTION -->
+    <div class="plan-cards">
+      <div class="plan-card free selected" id="plan-free" onclick="selectPlan('free')">
+        <div class="plan-name">🆓 خەسار Free</div>
+        <div class="plan-price">بێ تێچوون — <strong>$0</strong>/مانگ</div>
+        <ul class="plan-features">
+          <li>ڕێڕەوی ٢٤ مانگ</li>
+          <li>ئەرکی ڕۆژانە</li>
+          <li>کەناڵەکانی یوتیوب</li>
+          <li>XP سیستەم</li>
+          <li class="locked">جێرناڵی تریدینگ (نییە)</li>
+          <li class="locked">ئەنالیز و ستاتیستیک (نییە)</li>
+          <li class="locked">مارکێت تیکەر (نییە)</li>
+        </ul>
+      </div>
+      <div class="plan-card pro" id="plan-pro" onclick="selectPlan('pro')">
+        <div class="plan-badge">👑 PRO</div>
+        <div class="plan-name" style="color:var(--gold)">پرۆ — Pro</div>
+        <div class="plan-price">تەنها <strong>$9</strong>/مانگ</div>
+        <ul class="plan-features">
+          <li>هەموو تایبەتمەندی خەسار</li>
+          <li>جێرناڵی تریدینگ تەواو</li>
+          <li>ستاتیستیک و ئەنالیز</li>
+          <li>مارکێت تیکەر زیندوو</li>
+          <li>پشتگیری ئەکاونت بۆ ساڵ</li>
+          <li>تازەکارییەکانی داهاتوو</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">ناو</label>
+      <input class="form-input" id="reg-name" type="text" placeholder="ناوت بنووسە" maxlength="30">
+    </div>
+    <div class="form-group">
+      <label class="form-label">ئیمەیڵ</label>
+      <input class="form-input" id="reg-email" type="email" placeholder="email@example.com" dir="ltr">
+    </div>
+    <div class="form-group">
+      <label class="form-label">ووشەی نهێنی</label>
+      <input class="form-input" id="reg-pass" type="password" placeholder="کەمانی ٦ پیت" dir="ltr">
+    </div>
+    <div class="form-group">
+      <label class="form-label">ئاستت لە فۆرێکس</label>
+      <select class="form-input" id="reg-level">
+        <option value="beginner">🌱 تازەکار — هیچم نازانم</option>
+        <option value="learning">📚 فێربوونم — بنچینەم هەیە</option>
+        <option value="practicing">📊 پراکتیسەم — Demo دەتریدم</option>
+        <option value="live">💹 لایڤ — دراوی ڕاستم خستووە</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">ئامانجت چییە؟</label>
+      <select class="form-input" id="reg-goal">
+        <option>فێربوونی فۆرێکس بۆ داهاتی زیاتر</option>
+        <option>Full-Time تریدەر بم</option>
+        <option>پارەدانی خۆم باشتر بکەم</option>
+        <option>تریدینگ وەک هۆبی</option>
+      </select>
+    </div>
+    <button class="auth-submit-btn" onclick="register()">📲 ئەکاونت دروست بکە</button>
+    <div class="auth-switch">ئەکاونتت هەیە؟ <span onclick="goTo('login')">داخل ببە</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════════════ -->
+<div class="screen auth-screen" id="login">
+  <div class="auth-header">
+    <div class="auth-back" onclick="goTo('splash')">←</div>
+    <div class="auth-title">خێرهاتیت <span>دووبارە</span> 👑</div>
+    <div class="auth-sub">ئەکاونتەکەت داخل بکە بزانیم کێیت</div>
+  </div>
+  <div class="auth-body">
+    <div class="form-group">
+      <label class="form-label">ئیمەیڵ</label>
+      <input class="form-input" id="log-email" type="email" placeholder="email@example.com" dir="ltr">
+    </div>
+    <div class="form-group">
+      <label class="form-label">ووشەی نهێنی</label>
+      <input class="form-input" id="log-pass" type="password" placeholder="••••••" dir="ltr">
+    </div>
+    <button class="auth-submit-btn" onclick="login()">🔑 داخل ببە</button>
+    <div class="auth-switch">ئەکاونتت نییە؟ <span onclick="goTo('register')">دروست بکە</span></div>
+
+    <div style="margin-top:20px;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:12px;font-size:11px;color:var(--text3);text-align:center;line-height:1.8">
+      🔑 بۆ تاقیکردنەوە:<br>
+      <span style="color:var(--gold);font-family:'JetBrains Mono',monospace">demo@tradeking.com</span><br>
+      <span style="color:var(--gold);font-family:'JetBrains Mono',monospace">123456</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════════ -->
+<div class="screen" id="app">
+
+  <div class="statusbar">
+    <span id="clock">٩:٤١</span>
+    <span style="display:flex;align-items:center;gap:4px">
+      <span id="hdr-plan-badge" style="font-size:9px;font-weight:800"></span>
+      📶 🔋
+    </span>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-inner">
+      <div class="app-logo">Trade<span>King</span><sup>PRO</sup></div>
+      <div class="header-actions">
+        <div class="hdr-btn" onclick="showPage('profile',this)">👤</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGES ══ -->
+
+  <!-- HOME -->
+  <div class="page active" id="page-home">
+
+    <!-- TICKER -->
+    <div class="sec-head" style="padding-top:14px">
+      <div class="sec-head-left">
+        <div class="sec-dot"></div>
+        <div class="sec-title">بازاڕ ئەمڕۆ</div>
+      </div>
+      <div class="ticker-live" id="ticker-live-dot"></div>
+    </div>
+    <div class="ticker-wrap" id="ticker-section">
+      <div class="ticker-head"><div class="ticker-live"></div> بازاڕی زیندوو</div>
+      <div class="ticker-grid" id="ticker-grid"></div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero-section">
+      <div class="hero-card">
+        <div class="hero-top">
+          <div>
+            <div class="hero-greet">خێرهاتیت دووبارە،</div>
+            <div class="hero-name"><span class="crown">👑</span> <span id="hero-name">سافین</span></div>
+          </div>
+          <div class="level-pill">
+            <div class="level-label" id="hero-level">BEGINNER</div>
+            <div class="level-sub" id="hero-level-sub">مەرحەلەی یەکەم</div>
+          </div>
+        </div>
+        <div class="xp-section">
+          <div class="xp-label-row">
+            <span class="xp-label">XP پێشکەوتن</span>
+            <span class="xp-val" id="hero-xp">0 / 100</span>
+          </div>
+          <div class="xp-track">
+            <div class="xp-fill" id="hero-xp-bar" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="mini-stats">
+          <div class="mini-stat">
+            <div class="mini-stat-icon">✅</div>
+            <div class="mini-stat-val" id="ms-done">٠</div>
+            <div class="mini-stat-lbl">تامامکراو</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-icon">🔥</div>
+            <div class="mini-stat-val" id="ms-streak">١</div>
+            <div class="mini-stat-lbl">ڕۆژ پشت هەم</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-icon">📔</div>
+            <div class="mini-stat-val" id="ms-journal">٠</div>
+            <div class="mini-stat-lbl">جێرناڵ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASKS -->
+    <div class="sec-head">
+      <div class="sec-head-left">
+        <div class="sec-dot"></div>
+        <div class="sec-title">📋 ئەرکی ئەمڕۆ</div>
+      </div>
+      <div style="font-size:11px;color:var(--text3)" id="task-count-lbl">٠/٥</div>
+    </div>
+    <div class="tasks-wrap">
+      <div class="tasks-top">
+        <div class="tasks-head-title">هەرکاتێک تامام کرد XP دەگریت</div>
+        <div class="tasks-count" id="tasks-cnt">٠ / ٥</div>
+      </div>
+      <div class="tasks-progress-bar"><div class="tasks-progress-fill" id="tasks-fill" style="width:0%"></div></div>
+      <div id="tasks-list"></div>
+    </div>
+
+    <!-- TIP -->
+    <div class="tip-card">
+      <div class="tip-pulse">🧠</div>
+      <div>
+        <div class="tip-label">تێبینی ئەمڕۆ</div>
+        <div class="tip-text" id="daily-tip-text">باشترین تریدەرانی جیهان لەم ئاستەوە دەستیان پێکردووە. هەر ڕۆژ ئەرکەکانت بکە!</div>
+      </div>
+    </div>
+
+    <!-- OVERALL PROGRESS -->
+    <div class="sec-head">
+      <div class="sec-head-left"><div class="sec-dot"></div><div class="sec-title">پێشکەوتنی گشتی</div></div>
+    </div>
+    <div class="overall-card" style="margin:0 16px 16px">
+      <div class="overall-row">
+        <span class="overall-lbl">٢٤ مانگ — لە سفیر بۆ ماستەر</span>
+        <span class="overall-val" id="overall-pct2">٠٪</span>
+      </div>
+      <div class="overall-track"><div class="overall-fill" id="overall-fill2" style="width:0%"></div></div>
+    </div>
+
+  </div><!-- /page-home -->
+
+  <!-- ROADMAP PAGE -->
+  <div class="page" id="page-roadmap">
+    <div class="page-header">
+      <h2>🗺️ ڕێڕەوی ٢٤ مانگ</h2>
+      <p>لە سفیر ئەکرێ بۆ باشترین تریدەری جیهان</p>
+    </div>
+
+    <div class="overall-card">
+      <div class="overall-row">
+        <span class="overall-lbl">کۆی پێشکەوتن</span>
+        <span class="overall-val" id="rm-pct">مانگی ١</span>
+      </div>
+      <div class="overall-track"><div class="overall-fill" id="rm-fill" style="width:4%"></div></div>
+    </div>
+
+    <!-- Stage 1 -->
+    <div class="stage-wrap">
+      <div class="stage-card s1 open" id="st1">
+        <div class="stage-hd" onclick="toggleStage('st1')">
+          <div class="stage-num-badge">١</div>
+          <div class="stage-hd-info">
+            <div class="stage-hd-name">بنچینەکان — Basics</div>
+            <div class="stage-hd-meta">📅 مانگی ١-٢ · تازەکار · ئازاد</div>
+          </div>
+          <div class="stage-arrow">▼</div>
+        </div>
+        <div class="stage-body">
+          <a class="teacher-row" href="https://www.youtube.com/@TradingwithRayner" target="_blank">
+            <div class="teacher-avi" style="background:rgba(0,229,160,0.1)">📈</div>
+            <div style="flex:1">
+              <div class="teacher-name">Rayner Teo</div>
+              <div class="teacher-meta">TradingwithRayner · ١.٥م بەشداربوو · باشترین بۆ تازەکار</div>
+            </div>
+            <span class="yt-badge">▶ YouTube</span>
+          </a>
+          <div class="topics-wrap">
+            <span class="topic-tag">📌 فۆرێکس چیە</span><span class="topic-tag">📌 Pip & Lot</span>
+            <span class="topic-tag">📌 Demo Account</span><span class="topic-tag">📌 MT4/MT5</span>
+            <span class="topic-tag">📌 جووت پێرەکان</span><span class="topic-tag">📌 بروکەر</span>
+            <span class="topic-tag">📌 سێشن</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-wrap">
+      <div class="stage-card s2" id="st2">
+        <div class="stage-hd" onclick="toggleStage('st2')">
+          <div class="stage-num-badge">٢</div>
+          <div class="stage-hd-info">
+            <div class="stage-hd-name">تەکنیکاڵ — Technical</div>
+            <div class="stage-hd-meta">📅 مانگی ٣-٥ · ناوەند</div>
+          </div>
+          <div class="stage-arrow">▼</div>
+        </div>
+        <div class="stage-body">
+          <a class="teacher-row" href="https://www.youtube.com/@TheTradingGeek" target="_blank">
+            <div class="teacher-avi" style="background:rgba(77,159,255,0.1)">💹</div>
+            <div style="flex:1"><div class="teacher-name">The Trading Geek — Brad Goh</div><div class="teacher-meta">١.٥٢م · SMC و پرایس ئەکشن</div></div>
+            <span class="yt-badge">▶ YouTube</span>
+          </a>
+          <a class="teacher-row" href="https://www.youtube.com/@ForexSignalsTV" target="_blank">
+            <div class="teacher-avi" style="background:rgba(77,159,255,0.07)">📡</div>
+            <div style="flex:1"><div class="teacher-name">ForexSignals TV</div><div class="teacher-meta">٨٠٠ک · لایڤ ئەنالیزی ڕۆژانە</div></div>
+            <span class="yt-badge">▶ YouTube</span>
+          </a>
+          <div class="topics-wrap">
+            <span class="topic-tag">📊 Candlestick</span><span class="topic-tag">📊 Support/Resistance</span>
+            <span class="topic-tag">📊 Trend</span><span class="topic-tag">📊 RSI & MACD</span>
+            <span class="topic-tag">📊 Fibonacci</span><span class="topic-tag">📊 Multi-Timeframe</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-wrap">
+      <div class="stage-card s3" id="st3">
+        <div class="stage-hd" onclick="toggleStage('st3')">
+          <div class="stage-num-badge">٣</div>
+          <div class="stage-hd-info">
+            <div class="stage-hd-name">ستراتیژی — Strategy</div>
+            <div class="stage-hd-meta">📅 مانگی ٦-١٠ · ناوەند-پێشکەوتوو</div>
+          </div>
+          <div class="stage-arrow">▼</div>
+        </div>
+        <div class="stage-body">
+          <a class="teacher-row" href="https://www.youtube.com/@NoNonsenseForex" target="_blank">
+            <div class="teacher-avi" style="background:rgba(181,122,255,0.1)">📓</div>
+            <div style="flex:1"><div class="teacher-name">No Nonsense Forex — VP</div><div class="teacher-meta">٣٠٠ک · سیستەمی تریدی کامل</div></div>
+            <span class="yt-badge">▶ YouTube</span>
+          </a>
+          <a class="teacher-row" href="https://www.youtube.com/@TraderNick" target="_blank">
+            <div class="teacher-avi" style="background:rgba(181,122,255,0.07)">📊</div>
+            <div style="flex:1"><div class="teacher-name">TraderNick</div><div class="teacher-meta">٢٠٠ک · جێرناڵ و ئەنالیز</div></div>
+            <span class="yt-badge">▶ YouTube</span>
+          </a>
+          <div class="topics-wrap">
+            <span class="topic-tag">🎯 Risk/Reward</span><span class="topic-tag">🎯 Position Size</span>
+            <span class="topic-tag">🎯 Stop Loss</span><span class="topic-tag">🎯 Backtesting</span>
+            <span class="topic-tag">🎯 سیستەمی خۆت</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-wrap">
+      <div class="stage-card s4" id="st4">
+        <div class="stage-hd" onclick="toggleStage('st4')">
+          <div class="stage-num-badge">٤</div>
+          <div class="stage-hd-info">
+            <div class="stage-hd-name">ئینستیتیوشناڵ</div>
+            <div class="stage-hd-meta">📅 مانگی ١١-١٨ · پێشکەوتوو</div>
+          </div>
+          <div class="stage-arrow">▼</div>
+        </div>
+        <div class="stage-body">
+          <a class="teacher-row" href="https://www.youtube.com/@InnerCircleTrader" target="_blank">
+            <div class="teacher-avi" style="background:rgba(249,115,22,0.1)">🏦</div>
+            <div style="flex:1"><div class="teacher-name">ICT — Inner Circle Trader</div><div class="teacher-meta">٥٠٠ک+ · دامەزرێنەری SMC</div></div>
+            <span class="yt-badge">▶ YouTube</span>
+          </a>
+          <a class="teacher-row" href="https://www.youtube.com/@AntonKreil" target="_blank">
+            <div class="teacher-avi" style="background:rgba(249,115,22,0.07)">🏆</div>
+            <div style="flex:1"><div class="teacher-name">Anton Kreil — ITPM</div><div class="teacher-meta">Goldman Sachs · پیشەییترین مامۆستا</div></div>
+            <span class="yt-badge">▶ YouTube</span>
+          </a>
+          <div class="topics-wrap">
+            <span class="topic-tag">🏦 Order Blocks</span><span class="topic-tag">🏦 Liquidity</span>
+            <span class="topic-tag">🏦 Smart Money</span><span class="topic-tag">🏦 COT Report</span>
+            <span class="topic-tag">🏦 پسیکۆلۆژی</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-wrap">
+      <div class="stage-card s5" id="st5">
+        <div class="stage-hd" onclick="toggleStage('st5')">
+          <div class="stage-num-badge">👑</div>
+          <div class="stage-hd-info">
+            <div class="stage-hd-name">ماستەر — Master</div>
+            <div class="stage-hd-meta">📅 مانگی ١٩-٢٤ · پرۆفێشناڵ</div>
+          </div>
+          <div class="stage-arrow">▼</div>
+        </div>
+        <div class="stage-body">
+          <a class="teacher-row" href="https://www.youtube.com/@StaceyBurkeTrading" target="_blank">
+            <div class="teacher-avi" style="background:rgba(245,200,66,0.1)">📐</div>
+            <div style="flex:1"><div class="teacher-name">Stacey Burke Trading</div><div class="teacher-meta">٢٠+ ساڵ · پرایس ئەکشنی خاڵص</div></div>
+            <span class="yt-badge">▶ YouTube</span>
+          </a>
+          <a class="teacher-row" href="https://www.youtube.com/@KharitonovTrading" target="_blank">
+            <div class="teacher-avi" style="background:rgba(245,200,66,0.07)">🎯</div>
+            <div style="flex:1"><div class="teacher-name">Kharitonov Trading</div><div class="teacher-meta">١٠٠ک · ملتی تایمفریم + لیکوئیدیتی</div></div>
+            <span class="yt-badge">▶ YouTube</span>
+          </a>
+          <div class="topics-wrap">
+            <span class="topic-tag">🚀 Prop Firm / FTMO</span><span class="topic-tag">🚀 Scaling Up</span>
+            <span class="topic-tag">🚀 Full-Time Trading</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="height:16px"></div>
+  </div>
+
+  <!-- CHANNELS PAGE -->
+  <div class="page" id="page-channels">
+    <div class="page-header">
+      <h2>📺 کەناڵەکان</h2>
+    </div>
+    <div style="padding:14px 0 0">
+      <div class="filter-bar">
+        <button class="filt-btn active" onclick="filterCh('all',this)">هەموو</button>
+        <button class="filt-btn" onclick="filterCh('beginner',this)">تازەکار</button>
+        <button class="filt-btn" onclick="filterCh('intermediate',this)">ناوەند</button>
+        <button class="filt-btn" onclick="filterCh('advanced',this)">پێشکەوتوو</button>
+        <button class="filt-btn" onclick="filterCh('pro',this)">پرۆ</button>
+      </div>
+    </div>
+    <div id="channels-list" style="padding-bottom:16px"></div>
+  </div>
+
+  <!-- JOURNAL PAGE -->
+  <div class="page" id="page-journal">
+    <div class="journal-tabs">
+      <button class="j-tab active" onclick="switchJTab('new',this)">📝 تریدی نوێ</button>
+      <button class="j-tab" onclick="switchJTab('history',this)">📋 مێژوو</button>
+      <button class="j-tab" onclick="switchJTab('stats',this)">📊 ستاتیستیک</button>
+    </div>
+
+    <!-- NEW TRADE -->
+    <div class="j-sub-page active" id="jt-new">
+      <div class="jform">
+        <div class="jform-head">📝 تریدی نوێ تۆمار بکە</div>
+        <div class="jform-row">
+          <div class="jform-grid">
+            <div>
+              <div class="jform-label">جووتپێرە — Pair</div>
+              <select class="jform-input" id="j-pair">
+                <option>EUR/USD</option><option>GBP/USD</option><option>USD/JPY</option>
+                <option>AUD/USD</option><option>USD/CAD</option><option>GBP/JPY</option>
+                <option>EUR/GBP</option><option>XAU/USD (Gold)</option><option>NAS100</option>
+              </select>
+            </div>
+            <div>
+              <div class="jform-label">ئەنجام — Result</div>
+              <select class="jform-input" id="j-result">
+                <option value="win">✅ Win</option>
+                <option value="loss">❌ Loss</option>
+                <option value="be">➖ Break Even</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="jform-row">
+          <div class="jform-grid">
+            <div><div class="jform-label">کات — Date</div><input type="date" class="jform-input" id="j-date"></div>
+            <div><div class="jform-label">ئاراستە</div>
+              <select class="jform-input" id="j-dir">
+                <option value="buy">🟢 Buy</option>
+                <option value="sell">🔴 Sell</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="jform-row">
+          <div class="jform-grid">
+            <div><div class="jform-label">Entry Price</div><input type="number" step="0.00001" class="jform-input" id="j-entry" placeholder="1.08500"></div>
+            <div><div class="jform-label">Lot Size</div><input type="number" step="0.01" class="jform-input" id="j-lot" placeholder="0.10"></div>
+          </div>
+        </div>
+        <div class="jform-row">
+          <div class="jform-grid">
+            <div><div class="jform-label">Stop Loss (Pips)</div><input type="number" class="jform-input" id="j-sl" placeholder="20" oninput="calcRR()"></div>
+            <div><div class="jform-label">Take Profit (Pips)</div><input type="number" class="jform-input" id="j-tp" placeholder="40" oninput="calcRR()"></div>
+          </div>
+        </div>
+        <div class="jform-row">
+          <div class="jform-label">R:R ڕەیشیۆ</div>
+          <div class="rr-display" id="rr-display">—</div>
+        </div>
+        <div class="jform-row">
+          <div class="jform-label">Setup</div>
+          <select class="jform-input" id="j-setup">
+            <option>Support/Resistance Bounce</option>
+            <option>Trend Continuation</option>
+            <option>Breakout</option>
+            <option>Order Block</option>
+            <option>Fair Value Gap (FVG)</option>
+            <option>Fibonacci Retracement</option>
+            <option>SMC — BOS/ChoCH</option>
+          </select>
+        </div>
+        <div class="jform-row">
+          <div class="jform-label">حاڵەتی دەروونی — Emotion</div>
+          <div class="emotion-grid">
+            <button class="emo-btn" onclick="selEmo(this,'😌 ئارام')"><span class="emo-ico">😌</span>ئارام</button>
+            <button class="emo-btn" onclick="selEmo(this,'😤 هەیجانی')"><span class="emo-ico">😤</span>هەیجانی</button>
+            <button class="emo-btn" onclick="selEmo(this,'😰 ترسان')"><span class="emo-ico">😰</span>ترسان</button>
+            <button class="emo-btn" onclick="selEmo(this,'😎 متمانە')"><span class="emo-ico">😎</span>متمانە</button>
+            <button class="emo-btn" onclick="selEmo(this,'😟 پشیمان')"><span class="emo-ico">😟</span>پشیمان</button>
+            <button class="emo-btn" onclick="selEmo(this,'🤔 ئیطمینان')"><span class="emo-ico">🤔</span>ئیطمینان</button>
+          </div>
+        </div>
+        <div class="jform-row" style="border-bottom:none">
+          <div class="jform-label">تێبینی — Notes</div>
+          <textarea class="jform-input" id="j-note" placeholder="چرا داخل بووی؟ چی فێربوویت؟ دەفعەی داهاتوو چیت جیاواز دەکات؟"></textarea>
+        </div>
+      </div>
+      <button class="save-trade-btn" onclick="saveTrade()">💾 تریدەکە خەزن بکە</button>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="j-sub-page" id="jt-history">
+      <div style="padding:16px 16px 8px">
+        <div class="j-stats-row" style="padding:0 0 16px">
+          <div class="j-stat">
+            <div class="j-stat-val" style="color:var(--green)" id="js-wins">٠</div>
+            <div class="j-stat-lbl">WINS</div>
+          </div>
+          <div class="j-stat">
+            <div class="j-stat-val" style="color:var(--red)" id="js-losses">٠</div>
+            <div class="j-stat-lbl">LOSSES</div>
+          </div>
+          <div class="j-stat">
+            <div class="j-stat-val" style="color:var(--gold)" id="js-wr">٠٪</div>
+            <div class="j-stat-lbl">WIN RATE</div>
+          </div>
+        </div>
+      </div>
+      <div class="entries-wrap" id="entries-list"></div>
+    </div>
+
+    <!-- STATS PAGE -->
+    <div class="j-sub-page" id="jt-stats">
+      <div id="stats-content" style="padding:16px"></div>
+    </div>
+
+  </div>
+
+  <!-- RULES PAGE -->
+  <div class="page" id="page-rules">
+    <div class="page-header">
+      <h2>⚡ یاساکانی زێڕین</h2>
+      <p>ئەمانە نەبووی — هەرگیز تریدەری باش نابیت</p>
+    </div>
+
+    <div class="rules-hero">
+      <div class="warn-icon">🚨</div>
+      <div>
+        <div class="warn-title">ئاگاداری گرنگ!</div>
+        <div class="warn-text">تا ٦ مانگ فێربوون — هەرگیز دراوی ڕاستەقینە نەخە بازاڕ. تەنها Demo Account بکارببە!</div>
+      </div>
+    </div>
+
+    <div class="rule-item">
+      <div class="rule-ico-wrap" style="background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.15)">📔</div>
+      <div><div class="rule-num">یاسای ١</div><div class="rule-title2">جێرناڵ بنووسە — هەر ڕۆژ</div>
+      <div class="rule-desc2">هەر تریدێک تۆمار بکە. چرا داخل بوویت؟ چی بوو؟ بەبێ جێرناڵ — پێشکەوتن نییە.</div></div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-ico-wrap" style="background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.15)">🛡️</div>
+      <div><div class="rule-num">یاسای ٢</div><div class="rule-title2">ڕیسک ١-٢٪ تەنها</div>
+      <div class="rule-desc2">هەرگیز زیاتر لە ٢٪ی ئەکاونتت لە یەک تریددا. ئەمە یاسای ژمارە یەکەی بازاڕە.</div></div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-ico-wrap" style="background:rgba(77,159,255,0.08);border:1px solid rgba(77,159,255,0.15)">🧪</div>
+      <div><div class="rule-num">یاسای ٣</div><div class="rule-title2">Backtest پێش هەر شتێک</div>
+      <div class="rule-desc2">پێش لایڤ — ١٠٠ تریدی مێژوویی بکە. ئیدیا خاوەن سیستەم بکە.</div></div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-ico-wrap" style="background:rgba(181,122,255,0.08);border:1px solid rgba(181,122,255,0.15)">🧠</div>
+      <div><div class="rule-num">یاسای ٤</div><div class="rule-title2">پسیکۆلۆژی = ٥٠٪ی تریدینگ</div>
+      <div class="rule-desc2">ئەگەر هەیجان هەیتی — تریدی نەکە. بازاڕ هەمیشە هەیە، دراوەکەت نا!</div></div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-ico-wrap" style="background:rgba(245,200,66,0.08);border:1px solid rgba(245,200,66,0.15)">📵</div>
+      <div><div class="rule-num">یاسای ٥</div><div class="rule-title2">سیگناڵ = فێربوون نەک کۆپی</div>
+      <div class="rule-desc2">سیگناڵەکان کۆپی مەکە. بیکارببە بۆ فێربوون. تریدەرانی مووفەق سیستەمی خۆیانیانە.</div></div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-ico-wrap" style="background:rgba(77,159,255,0.08);border:1px solid rgba(77,159,255,0.15)">⏰</div>
+      <div><div class="rule-num">یاسای ٦</div><div class="rule-title2">ئامانجی درێژخایەن بگرە</div>
+      <div class="rule-desc2">٢-٣ ساڵی پیشەیی دەوێ. لێواندن = سەرکەوتن.</div></div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-ico-wrap" style="background:rgba(0,229,160,0.05);border:1px solid rgba(0,229,160,0.1)">📈</div>
+      <div><div class="rule-num">یاسای ٧</div><div class="rule-title2">هەر ڕۆژ ئەرکەکانت بکە</div>
+      <div class="rule-desc2">ئاستت ٠ بێت یان ١٠٠ — پابەند بە، بەردەوام بە.</div></div>
+    </div>
+
+    <div class="motivate-card">
+      <div class="mot-crown">👑</div>
+      <div class="mot-name" id="mot-name">سافین ئەکرێ</div>
+      <div class="mot-sub">هەر ئەمڕۆ دەست پێ بکە 🚀</div>
+    </div>
+    <div style="height:16px"></div>
+  </div>
+
+  <!-- PROFILE PAGE -->
+  <div class="page" id="page-profile">
+    <div class="profile-hero">
+      <div class="profile-avatar" id="prof-avatar">👑</div>
+      <div class="profile-name" id="prof-name">سافین</div>
+      <div id="prof-plan-badge" class="profile-plan plan-free-badge">🆓 خەسار Free</div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%">
+        <div class="pstat"><div class="pstat-val" id="pstat-xp">0</div><div class="pstat-lbl">XP</div></div>
+        <div class="pstat"><div class="pstat-val" id="pstat-streak">1</div><div class="pstat-lbl">🔥 Streak</div></div>
+        <div class="pstat"><div class="pstat-val" id="pstat-trades">0</div><div class="pstat-lbl">تریدەکان</div></div>
+      </div>
+    </div>
+
+    <!-- UPGRADE if free -->
+    <div id="upgrade-section" style="display:block">
+      <div style="padding:16px 16px 0">
+        <div class="upgrade-card">
+          <div class="upgrade-title">👑 بگورە بۆ Pro</div>
+          <div class="upgrade-sub">هەموو تایبەتمەندییەکان بکەرەوە — تەنها $٩ بۆ مانگێک</div>
+          <div class="upgrade-features">
+            <div class="upgrade-feature">جێرناڵی تریدینگ تەواو</div>
+            <div class="upgrade-feature">ستاتیستیک و ئەنالیزی پێشکەوتوو</div>
+            <div class="upgrade-feature">مارکێت تیکەر زیندوو</div>
+            <div class="upgrade-feature">پشتگیری ئەکاونت ساڵانە</div>
+            <div class="upgrade-feature">تازەکارییەکانی داهاتوو</div>
+          </div>
+          <button class="upgrade-btn" onclick="upgradeNow()">🚀 ئەکاونتم بگورە — $9/مانگ</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-title">ئەکاونت</div>
+      <div class="menu-item" onclick="editProfile()">
+        <div class="menu-left">
+          <div class="menu-ico">✏️</div>
+          <div><div class="menu-name">زانیارییەکان دەستکاری بکە</div><div class="menu-sub">ناو، ئیمەیڵ، ئامانج</div></div>
+        </div>
+        <div class="menu-arrow">›</div>
+      </div>
+      <div class="menu-item" onclick="showProgress()">
+        <div class="menu-left">
+          <div class="menu-ico">📊</div>
+          <div><div class="menu-name">پێشکەوتنەکەم</div><div class="menu-sub">XP، ئاست، ستریک</div></div>
+        </div>
+        <div class="menu-arrow">›</div>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-title">بەرنامە</div>
+      <div class="menu-item">
+        <div class="menu-left">
+          <div class="menu-ico">🔔</div>
+          <div><div class="menu-name">ئاگاداریەکان</div><div class="menu-sub">ئەرکی ڕۆژانە یادت بکاتەوە</div></div>
+        </div>
+        <div class="menu-arrow">›</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-left">
+          <div class="menu-ico">🌙</div>
+          <div><div class="menu-name">ڕووکار</div><div class="menu-sub">تاریک / ڕووناک</div></div>
+        </div>
+        <div class="menu-arrow">›</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-left">
+          <div class="menu-ico">📤</div>
+          <div><div class="menu-name">جێرناڵ هەناردە بکە</div><div class="menu-sub">CSV دەردەکات</div></div>
+        </div>
+        <div class="menu-arrow">›</div>
+      </div>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">🚪 چوونەدەرەوە — Logout</button>
+    <div style="text-align:center;font-size:10px;color:var(--text4);padding-bottom:20px">TradeKing Pro v2.0 · © 2025</div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="showPage('home',this)" id="nav-home">
+      <span class="nav-ico">🏠</span><span class="nav-lbl">ماڵەوە</span>
+    </button>
+    <button class="nav-item" onclick="showPage('roadmap',this)" id="nav-roadmap">
+      <span class="nav-ico">🗺️</span><span class="nav-lbl">ڕێڕەو</span>
+    </button>
+    <button class="nav-item" onclick="showPage('channels',this)" id="nav-channels">
+      <span class="nav-ico">📺</span><span class="nav-lbl">کەناڵ</span>
+    </button>
+    <button class="nav-item" onclick="showPage('journal',this)" id="nav-journal">
+      <span class="nav-ico">📔</span><span class="nav-lbl">جێرناڵ</span>
+    </button>
+    <button class="nav-item" onclick="showPage('rules',this)" id="nav-rules">
+      <span class="nav-ico">⚡</span><span class="nav-lbl">یاسا</span>
+    </button>
+  </nav>
+
+</div><!-- /app -->
+
+<!-- ══════════════════════════════════════════
+     SCRIPT
+══════════════════════════════════════════ -->
+<script>
+// ═══════════ DATA ═══════════
+const TASKS_DATA = [
+  { id:'t1', text:'Rayner Teo — فۆرێکس چیە؟ (ڤیدیۆ ١)', xp:10 },
+  { id:'t2', text:'Pip و Lot فێربە', xp:10 },
+  { id:'t3', text:'Demo Account دروست بکە', xp:20 },
+  { id:'t4', text:'چارتی EUR/USD ببینە', xp:10 },
+  { id:'t5', text:'جێرناڵ — ئەمڕۆ چیت فێربوو بنووسە', xp:15 },
+];
+
+const TIPS = [
+  'باشترین تریدەرانی جیهان لەم ئاستەوە دەستیان پێکردووە. هەر ڕۆژ ئەرکەکانت بکە!',
+  'ڕیسک مەنەجمەنت = ٥٠٪ی سەرکەوتن. هەرگیز زیاتر لە ٢٪ مەخە!',
+  'جێرناڵ نووسین زیاتر لە هەر ستراتیژیێکت فێر دەکات.',
+  'Demo Account بکارببە — ئەزموونت گرینگتر لە دراوەکەتە.',
+  'تریدینگ ماراتۆنە نە دوومەتری — پابەند بە!'
+];
+
+const LEVELS = [
+  { name:'BEGINNER', sub:'مەرحەلەی یەکەم', max:100 },
+  { name:'LEARNER',  sub:'فێربەر', max:200 },
+  { name:'TRADER',   sub:'تریدەر', max:400 },
+  { name:'ADVANCED', sub:'پێشکەوتوو', max:700 },
+  { name:'MASTER',   sub:'ماستەر', max:1000 },
+];
+
+const CHANNELS_DATA = [
+  { name:'Rayner Teo', handle:'TradingwithRayner', subs:'١.٥م', icon:'📈', bg:'rgba(0,229,160,0.1)', desc:'باشترین کەناڵ بۆ تازەکاران — بنچینەی فۆرێکس', tags:['Price Action','Basics'], lv:'beginner', lvLabel:'⭐ تازەکار', lvClass:'lv-b', url:'https://www.youtube.com/@TradingwithRayner' },
+  { name:'The Trading Geek', handle:'Brad Goh', subs:'١.٥٢م', icon:'💹', bg:'rgba(77,159,255,0.1)', desc:'SMC و پرایس ئەکشن — بانکەکان چۆن بازاڕ کۆنترۆڵ دەکەن', tags:['SMC','Price Action'], lv:'intermediate', lvLabel:'⭐ ناوەند', lvClass:'lv-i', url:'https://www.youtube.com/@TheTradingGeek' },
+  { name:'ForexSignals TV', handle:'ForexSignals', subs:'٨٠٠ک', icon:'📡', bg:'rgba(77,159,255,0.07)', desc:'لایڤ ئەنالیزی ڕۆژانە و فێربوون لەگەڵ', tags:['Live','Analysis'], lv:'intermediate', lvLabel:'⭐ ناوەند', lvClass:'lv-i', url:'https://www.youtube.com/@ForexSignalsTV' },
+  { name:'No Nonsense Forex', handle:'VP', subs:'٣٠٠ک', icon:'📓', bg:'rgba(181,122,255,0.1)', desc:'سیستەمی تریدی کامل — Risk Management', tags:['System','Risk'], lv:'intermediate', lvLabel:'⭐⭐ ناوەند+', lvClass:'lv-i', url:'https://www.youtube.com/@NoNonsenseForex' },
+  { name:'TraderNick', handle:'Nick', subs:'٢٠٠ک', icon:'📊', bg:'rgba(181,122,255,0.07)', desc:'جێرناڵی تریدی ئاشکرا — فێربە چۆن ئەنالیز بکەی', tags:['Journal','Analysis'], lv:'intermediate', lvLabel:'⭐ ناوەند', lvClass:'lv-i', url:'https://www.youtube.com/@TraderNick' },
+  { name:'ICT — Inner Circle Trader', handle:'Michael Huddleston', subs:'٥٠٠ک+', icon:'🏦', bg:'rgba(249,115,22,0.1)', desc:'دامەزرێنەری Smart Money Concepts — بانکەکان چۆن مووڤ دەکەن', tags:['SMC Creator','Advanced'], lv:'advanced', lvLabel:'⭐⭐ پێشکەوتوو', lvClass:'lv-a', url:'https://www.youtube.com/@InnerCircleTrader' },
+  { name:'Mentfx', handle:'Ment', subs:'٣٠٠ک', icon:'🧠', bg:'rgba(181,122,255,0.08)', desc:'ICT کۆنسێپت + پسیکۆلۆژی تریدینگ', tags:['ICT','Psychology'], lv:'advanced', lvLabel:'⭐⭐ پێشکەوتوو', lvClass:'lv-a', url:'https://www.youtube.com/@Mentfx' },
+  { name:'Anton Kreil — ITPM', handle:'Goldman Sachs کارکردووە', subs:'پیشەییترین', icon:'🏆', bg:'rgba(245,200,66,0.1)', desc:'ئینستیتیوشناڵ تریدینگ — چۆن پرۆ بازاڕ دەتەماشەن', tags:['Institutional','Pro'], lv:'pro', lvLabel:'👑 پرۆ', lvClass:'lv-p', url:'https://www.youtube.com/@AntonKreil' },
+  { name:'Stacey Burke Trading', handle:'Stacey Burke', subs:'٢٠+ ساڵ', icon:'📐', bg:'rgba(245,200,66,0.07)', desc:'پرایس ئەکشنی خاڵص — بەبێ ئیندیکاتەر', tags:['Pure PA','20yr exp'], lv:'pro', lvLabel:'👑 پرۆ', lvClass:'lv-p', url:'https://www.youtube.com/@StaceyBurkeTrading' },
+  { name:'Kharitonov Trading', handle:'Kharitonov', subs:'١٠٠ک', icon:'🎯', bg:'rgba(245,200,66,0.05)', desc:'ملتی تایمفریم، بریکی ستراکتچەر، لیکوئیدیتی', tags:['Liquidity','Structure'], lv:'pro', lvLabel:'👑 پرۆ', lvClass:'lv-p', url:'https://www.youtube.com/@KharitonovTrading' },
+];
+
+const TICKER_DATA = [
+  { pair:'EUR/USD', price:'1.0842', chg:'+0.23', up:true },
+  { pair:'GBP/USD', price:'1.2631', chg:'-0.14', up:false },
+  { pair:'XAU/USD', price:'2315.4', chg:'+0.87', up:true },
+  { pair:'USD/JPY', price:'151.84', chg:'+0.31', up:true },
+  { pair:'NAS100', price:'17842', chg:'+1.24', up:true },
+  { pair:'BTC', price:'67450', chg:'-1.02', up:false },
+];
+
+// DEMO ACCOUNT
+const DEMO_ACCOUNT = { email:'demo@tradeking.com', pass:'123456', name:'دێمۆ', plan:'pro' };
+
+// ═══════════ STATE ═══════════
+function getS() { try { return JSON.parse(localStorage.getItem('tkpro2')||'{}'); } catch{ return {}; } }
+function setS(s) { localStorage.setItem('tkpro2', JSON.stringify(s)); }
+
+let S = getS();
+if (!S.xp) S.xp = 0;
+if (!S.completedTasks) S.completedTasks = {};
+if (!S.journalEntries) S.journalEntries = [];
+if (!S.streak) S.streak = 1;
+if (!S.lastDate) S.lastDate = new Date().toDateString();
+if (!S.users) S.users = [];
+if (!S.currentUser) S.currentUser = null;
+
+// Streak check
+const today = new Date().toDateString();
+if (S.lastDate !== today) {
+  const yest = new Date(); yest.setDate(yest.getDate()-1);
+  S.streak = (S.lastDate === yest.toDateString()) ? (S.streak||1)+1 : 1;
+  S.lastDate = today;
+  setS(S);
+}
+
+let selectedPlan = 'free';
+let selectedEmotion = '';
+
+// ═══════════ SCREEN NAV ═══════════
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ═══════════ AUTH ═══════════
+function selectPlan(plan) {
+  selectedPlan = plan;
+  document.getElementById('plan-free').classList.toggle('selected', plan==='free');
+  document.getElementById('plan-pro').classList.toggle('selected', plan==='pro');
+}
+
+function register() {
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const pass = document.getElementById('reg-pass').value;
+  if (!name) { toast('ناوت بنووسە!', 'error'); return; }
+  if (!email || !email.includes('@')) { toast('ئیمەیڵی دروست بنووسە!', 'error'); return; }
+  if (pass.length < 6) { toast('ووشەی نهێنی کەمانی ٦ پیت!', 'error'); return; }
+  if (S.users.find(u=>u.email===email)) { toast('ئەم ئیمەیڵە پێشتر تۆمارکراوە!', 'error'); return; }
+
+  const user = {
+    name, email, pass,
+    plan: selectedPlan,
+    level: document.getElementById('reg-level').value,
+    goal: document.getElementById('reg-goal').value,
+    createdAt: Date.now(),
+    xp: 0, completedTasks: {}, journalEntries: [], streak: 1, lastDate: today
+  };
+  S.users.push(user);
+  S.currentUser = email;
+  setS(S);
+  loadUserData(user);
+  toast('خێرهاتیت! ئەکاونتت دروستکرا 🎉', 'success');
+  setTimeout(()=>goTo('app'), 600);
+}
+
+function login() {
+  const email = document.getElementById('log-email').value.trim();
+  const pass = document.getElementById('log-pass').value;
+
+  // Demo account
+  if (email===DEMO_ACCOUNT.email && pass===DEMO_ACCOUNT.pass) {
+    const demoUser = { name:'دێمۆ', email, plan:'pro', xp:450, completedTasks:{t1:true,t2:true,t3:true}, journalEntries: getDemoEntries(), streak:12, lastDate:today };
+    S.currentUser = email;
+    setS(S);
+    loadUserData(demoUser);
+    toast('خێرهاتیت دووبارە! 👑', 'success');
+    setTimeout(()=>goTo('app'), 600);
+    return;
+  }
+
+  const user = S.users.find(u=>u.email===email && u.pass===pass);
+  if (!user) { toast('ئیمەیڵ یان ووشەی نهێنی هەڵەیە!', 'error'); return; }
+  S.currentUser = email;
+  setS(S);
+  loadUserData(user);
+  toast('خێرهاتیت دووبارە 👑', 'success');
+  setTimeout(()=>goTo('app'), 600);
+}
+
+function logout() {
+  if (!confirm('دڵنیایت لە چوونەدەرەوە؟')) return;
+  S.currentUser = null;
+  setS(S);
+  goTo('splash');
+  toast('چوویتەدەرەوە', 'info');
+}
+
+function upgradeNow() {
+  toast('پیاوەکەت پێوەندی بکە بۆ ئەکتیڤکردنی Pro 📱', 'info');
+}
+
+function getDemoEntries() {
+  return [
+    { id:1, pair:'GBP/USD', date:'2025-01-15', result:'win', entry:'1.2580', lot:'0.10', sl:'20', tp:'40', rr:'2.0', setup:'Order Block', note:'Order Block لەسەر H4 دیتم، داخل بووم. باش بوو!', emotion:'😎 متمانە', dir:'buy' },
+    { id:2, pair:'EUR/USD', date:'2025-01-12', result:'loss', entry:'1.0820', lot:'0.05', sl:'25', tp:'50', rr:'2.0', setup:'Support/Resistance Bounce', note:'Stop huntبووم، بازاڕ برتم. Next time SL زیادتر دادەنێم.', emotion:'😰 ترسان', dir:'sell' },
+    { id:3, pair:'XAU/USD', date:'2025-01-10', result:'win', entry:'2290', lot:'0.01', sl:'15', tp:'45', rr:'3.0', setup:'Trend Continuation', note:'ترێندەکە باش بوو، پێگرتم', emotion:'😌 ئارام', dir:'buy' },
+  ];
+}
+
+let currentUserData = null;
+
+function loadUserData(user) {
+  currentUserData = user;
+  S.xp = user.xp || 0;
+  S.completedTasks = user.completedTasks || {};
+  S.journalEntries = user.journalEntries || [];
+  S.streak = user.streak || 1;
+
+  // update UI
+  document.getElementById('hero-name').textContent = user.name;
+  document.getElementById('mot-name').textContent = user.name + ' ئەکرێ';
+  document.getElementById('prof-name').textContent = user.name;
+
+  const isPro = user.plan === 'pro';
+  document.getElementById('hdr-plan-badge').textContent = isPro ? '👑PRO' : '🆓FREE';
+  document.getElementById('prof-plan-badge').className = 'profile-plan ' + (isPro ? 'plan-pro-badge' : 'plan-free-badge');
+  document.getElementById('prof-plan-badge').textContent = isPro ? '👑 Pro — پرۆ' : '🆓 خەسار Free';
+  document.getElementById('upgrade-section').style.display = isPro ? 'none' : 'block';
+
+  renderAll();
+  renderTicker();
+  renderChannels('all');
+}
+
+// ═══════════ RENDER ═══════════
+function n2a(n) { return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+
+function getLevel() {
+  let xp = S.xp, cum = 0;
+  for (let i=0;i<LEVELS.length;i++) {
+    if (xp < cum+LEVELS[i].max) return {idx:i, xpIn:xp-cum, maxIn:LEVELS[i].max, info:LEVELS[i]};
+    cum += LEVELS[i].max;
+  }
+  return {idx:LEVELS.length-1, xpIn:LEVELS[LEVELS.length-1].max, maxIn:LEVELS[LEVELS.length-1].max, info:LEVELS[LEVELS.length-1]};
+}
+
+function renderAll() {
+  renderHome();
+  renderJournalStats();
+  renderProfileStats();
+}
+
+function renderHome() {
+  const lv = getLevel();
+  const pct = Math.min(100, Math.round(lv.xpIn/lv.maxIn*100));
+  document.getElementById('hero-xp-bar').style.width = pct+'%';
+  document.getElementById('hero-xp').textContent = lv.xpIn+' / '+lv.maxIn;
+  document.getElementById('hero-level').textContent = lv.info.name;
+  document.getElementById('hero-level-sub').textContent = lv.info.sub;
+
+  const done = Object.keys(S.completedTasks).length;
+  document.getElementById('ms-done').textContent = n2a(done);
+  document.getElementById('ms-streak').textContent = n2a(S.streak);
+  document.getElementById('ms-journal').textContent = n2a(S.journalEntries.length);
+
+  // tasks
+  const list = document.getElementById('tasks-list');
+  list.innerHTML = '';
+  let dc = 0;
+  TASKS_DATA.forEach(t => {
+    const isDone = !!S.completedTasks[t.id];
+    if(isDone) dc++;
+    const div = document.createElement('div');
+    div.className = 'task-row'+(isDone?' done':'');
+    div.innerHTML = `<div class="task-check-box">${isDone?'✓':''}</div><div class="task-txt">${t.text}</div><div class="task-xp-badge">+${t.xp}XP</div>`;
+    div.onclick = ()=>toggleTask(t.id,t.xp);
+    list.appendChild(div);
+  });
+  const fillPct = Math.round(dc/TASKS_DATA.length*100);
+  document.getElementById('tasks-fill').style.width = fillPct+'%';
+  document.getElementById('tasks-cnt').textContent = n2a(dc)+' / '+n2a(TASKS_DATA.length);
+  document.getElementById('task-count-lbl').textContent = n2a(dc)+'/'+n2a(TASKS_DATA.length);
+
+  // tip
+  const ti = Math.floor(Date.now()/86400000)%TIPS.length;
+  document.getElementById('daily-tip-text').textContent = TIPS[ti];
+
+  // overall
+  const totalM = Math.min(24, Math.round(S.xp/50));
+  const op = Math.min(100, Math.round(totalM/24*100));
+  document.getElementById('overall-pct2').textContent = n2a(op)+'٪';
+  document.getElementById('overall-fill2').style.width = op+'%';
+}
+
+function toggleTask(id, xp) {
+  if (S.completedTasks[id]) { S.xp = Math.max(0,S.xp-xp); delete S.completedTasks[id]; }
+  else { S.completedTasks[id]=true; S.xp+=xp; toast('+'+n2a(xp)+'XP 🎉','success'); }
+  saveUserProgress();
+  renderAll();
+}
+
+function saveUserProgress() {
+  const u = S.users.find(u=>u.email===S.currentUser);
+  if(u){ u.xp=S.xp; u.completedTasks=S.completedTasks; u.journalEntries=S.journalEntries; u.streak=S.streak; }
+  setS(S);
+}
+
+// ═══════════ TICKER ═══════════
+function renderTicker() {
+  const g = document.getElementById('ticker-grid');
+  g.innerHTML = TICKER_DATA.map(t=>`
+    <div class="ticker-item">
+      <div class="ticker-pair">${t.pair}</div>
+      <div class="ticker-price ${t.up?'up':'dn'}">${t.price}</div>
+      <div class="ticker-change ${t.up?'up':'dn'}">${t.chg}%</div>
+    </div>`).join('');
+  // simulate live changes
+  setInterval(()=>{
+    const items = document.querySelectorAll('.ticker-price');
+    items.forEach((el,i)=>{
+      const d = (Math.random()-0.5)*0.002;
+      const cur = parseFloat(TICKER_DATA[i].price)+d;
+      TICKER_DATA[i].price = cur.toFixed(TICKER_DATA[i].pair.includes('JPY')||TICKER_DATA[i].pair==='NAS100'||TICKER_DATA[i].pair==='BTC'||TICKER_DATA[i].pair.includes('XAU')?1:4);
+      el.textContent = TICKER_DATA[i].price;
+      const up = d>0;
+      el.className = 'ticker-price '+(up?'up':'dn');
+    });
+  },3000);
+}
+
+// ═══════════ CHANNELS ═══════════
+function renderChannels(filter) {
+  const container = document.getElementById('channels-list');
+  const filtered = filter==='all' ? CHANNELS_DATA : CHANNELS_DATA.filter(c=>c.lv===filter);
+  container.innerHTML = filtered.map(c=>`
+    <div class="ch-card">
+      <div class="ch-inner">
+        <div class="ch-avi" style="background:${c.bg}">${c.icon}</div>
+        <div>
+          <div class="ch-name">${c.name}</div>
+          <div class="ch-handle">${c.handle}</div>
+          <div class="ch-subs">👥 ${c.subs} بەشداربوو</div>
+          <div class="ch-desc">${c.desc}</div>
+        </div>
+      </div>
+      <div class="ch-footer">
+        <div class="ch-lv ${c.lvClass}">${c.lvLabel}</div>
+        <div class="ch-tags-row">${c.tags.map(t=>`<span class="ch-tag2">${t}</span>`).join('')}</div>
+        <a class="ch-open-btn" href="${c.url}" target="_blank">▶ YouTube</a>
+      </div>
+    </div>`).join('');
+}
+
+function filterCh(lv, btn) {
+  document.querySelectorAll('.filt-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderChannels(lv);
+}
+
+// ═══════════ JOURNAL ═══════════
+function switchJTab(tab, btn) {
+  document.querySelectorAll('.j-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.j-sub-page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('jt-'+tab).classList.add('active');
+  if(tab==='history') renderEntries();
+  if(tab==='stats') renderStats();
+}
+
+function selEmo(btn, val) {
+  document.querySelectorAll('.emo-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  selectedEmotion = val;
+}
+
+function calcRR() {
+  const sl = parseFloat(document.getElementById('j-sl').value);
+  const tp = parseFloat(document.getElementById('j-tp').value);
+  const disp = document.getElementById('rr-display');
+  if(sl>0 && tp>0) {
+    const rr = (tp/sl).toFixed(2);
+    disp.textContent = '1 : '+rr;
+    disp.style.color = rr>=2 ? 'var(--green)' : rr>=1 ? 'var(--gold)' : 'var(--red)';
+  } else { disp.textContent = '—'; disp.style.color = 'var(--gold)'; }
+}
+
+function saveTrade() {
+  const note = document.getElementById('j-note').value.trim();
+  if(!note) { toast('تێبینی بنووسە! 📝','error'); return; }
+  const sl = document.getElementById('j-sl').value;
+  const tp = document.getElementById('j-tp').value;
+  const entry = {
+    id: Date.now(),
+    pair: document.getElementById('j-pair').value,
+    date: document.getElementById('j-date').value || today,
+    result: document.getElementById('j-result').value,
+    dir: document.getElementById('j-dir').value,
+    entry: document.getElementById('j-entry').value,
+    lot: document.getElementById('j-lot').value,
+    sl, tp,
+    rr: sl&&tp ? (tp/sl).toFixed(2) : null,
+    setup: document.getElementById('j-setup').value,
+    note, emotion: selectedEmotion||'—'
+  };
+  S.journalEntries.unshift(entry);
+  saveUserProgress();
+  // reset form
+  ['j-entry','j-lot','j-sl','j-tp','j-note'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('rr-display').textContent = '—';
+  document.querySelectorAll('.emo-btn').forEach(b=>b.classList.remove('sel'));
+  selectedEmotion = '';
+  toast('تریدەکە خەزنکرا ✅','success');
+  renderAll();
+}
+
+function renderEntries() {
+  const wins = S.journalEntries.filter(e=>e.result==='win').length;
+  const losses = S.journalEntries.filter(e=>e.result==='loss').length;
+  const total = wins+losses;
+  const wr = total>0 ? Math.round(wins/total*100) : 0;
+  document.getElementById('js-wins').textContent = n2a(wins);
+  document.getElementById('js-losses').textContent = n2a(losses);
+  document.getElementById('js-wr').textContent = n2a(wr)+'٪';
+
+  const list = document.getElementById('entries-list');
+  if(!S.journalEntries.length) {
+    list.innerHTML = '<div class="no-entries"><div class="nei">📭</div><p>هێشتا تریدت تۆمار نەکردووە<br>ئەرکی یەکەمت دروست بکە!</p></div>';
+    return;
+  }
+  list.innerHTML = S.journalEntries.map(e=>{
+    const rc = e.result==='win'?'r-win':e.result==='loss'?'r-loss':'r-be';
+    const rt = e.result==='win'?'✅ WIN':e.result==='loss'?'❌ LOSS':'➖ BE';
+    const dirIcon = e.dir==='buy' ? '🟢 BUY' : '🔴 SELL';
+    return `<div class="entry-card2">
+      <div class="entry-hd">
+        <div>
+          <div class="entry-pair2">${e.pair}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">${e.date} · ${dirIcon}</div>
+        </div>
+        <div class="entry-res ${rc}">${rt}</div>
+      </div>
+      <div class="entry-body">
+        ${e.setup?`<div class="entry-row2">📊 ${e.setup}</div>`:''}
+        ${e.sl&&e.tp?`<div class="entry-row2">SL: ${e.sl} pips · TP: ${e.tp} pips · <span style="color:var(--gold)">R:R 1:${e.rr}</span></div>`:''}
+        ${e.lot?`<div class="entry-row2">Lot: ${e.lot}</div>`:''}
+        ${e.note?`<div class="entry-note2">"${e.note}"</div>`:''}
+        <div class="entry-emo">حاڵەت: ${e.emotion}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderStats() {
+  const entries = S.journalEntries;
+  const wins = entries.filter(e=>e.result==='win').length;
+  const losses = entries.filter(e=>e.result==='loss').length;
+  const bes = entries.filter(e=>e.result==='be').length;
+  const total = entries.length;
+  const wr = total>0?Math.round(wins/total*100):0;
+
+  // Best setup
+  const setupCounts = {};
+  entries.forEach(e=>{ if(e.setup) setupCounts[e.setup]=(setupCounts[e.setup]||0)+1; });
+  const bestSetup = Object.keys(setupCounts).sort((a,b)=>setupCounts[b]-setupCounts[a])[0]||'—';
+
+  // Best pair
+  const pairWins = {};
+  entries.filter(e=>e.result==='win').forEach(e=>{ pairWins[e.pair]=(pairWins[e.pair]||0)+1; });
+  const bestPair = Object.keys(pairWins).sort((a,b)=>pairWins[b]-pairWins[a])[0]||'—';
+
+  const avgRR = entries.filter(e=>e.rr).length > 0
+    ? (entries.filter(e=>e.rr).reduce((s,e)=>s+parseFloat(e.rr),0)/entries.filter(e=>e.rr).length).toFixed(2)
+    : '—';
+
+  document.getElementById('stats-content').innerHTML = !total ? `
+    <div class="no-entries"><div class="nei">📊</div><p>تریدت تۆمار بکە<br>ستاتیستیکت دەرکەوێ!</p></div>
+  ` : `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div class="j-stat"><div class="j-stat-val" style="color:var(--green)">${n2a(wr)}٪</div><div class="j-stat-lbl">WIN RATE</div></div>
+      <div class="j-stat"><div class="j-stat-val" style="color:var(--gold)">${avgRR}</div><div class="j-stat-lbl">AVG R:R</div></div>
+      <div class="j-stat"><div class="j-stat-val" style="color:var(--blue)">${n2a(total)}</div><div class="j-stat-lbl">کۆی تریدەکان</div></div>
+      <div class="j-stat"><div class="j-stat-val" style="color:var(--purple)">${n2a(bes)}</div><div class="j-stat-lbl">Break Even</div></div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px">
+      <div style="font-size:11px;color:var(--text3);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">بارنووسەی ئەنجام</div>
+      <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px">
+        <div style="height:8px;background:var(--green);border-radius:4px;flex:${wins};min-width:4px"></div>
+        <div style="height:8px;background:var(--red);border-radius:4px;flex:${losses||0.1};min-width:4px"></div>
+        <div style="height:8px;background:var(--text4);border-radius:4px;flex:${bes||0.1};min-width:4px"></div>
+      </div>
+      <div style="display:flex;gap:14px;font-size:11px">
+        <span style="color:var(--green)">■ Win: ${n2a(wins)}</span>
+        <span style="color:var(--red)">■ Loss: ${n2a(losses)}</span>
+        <span style="color:var(--text3)">■ BE: ${n2a(bes)}</span>
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:var(--text3);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">باشترینەکان</div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:12px;color:var(--text2)">باشترین Setup</span>
+        <span style="font-size:12px;font-weight:700;color:var(--gold)">${bestSetup}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0">
+        <span style="font-size:12px;color:var(--text2)">باشترین Pair</span>
+        <span style="font-size:12px;font-weight:700;color:var(--gold);font-family:'JetBrains Mono',monospace">${bestPair}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderJournalStats() {
+  document.getElementById('ms-journal').textContent = n2a(S.journalEntries.length);
+}
+
+function renderProfileStats() {
+  document.getElementById('pstat-xp').textContent = n2a(S.xp);
+  document.getElementById('pstat-streak').textContent = n2a(S.streak);
+  document.getElementById('pstat-trades').textContent = n2a(S.journalEntries.length);
+}
+
+// ═══════════ PAGES ═══════════
+function showPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(btn && btn.classList) btn.classList.add('active');
+  if(name==='journal') { document.getElementById('j-date').value = today; }
+  if(name==='profile') renderProfileStats();
+  window.scrollTo(0,0);
+}
+
+function toggleStage(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ═══════════ TOAST ═══════════
+function toast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast '+type+' show';
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// ═══════════ CLOCK ═══════════
+function tick() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const el = document.getElementById('clock');
+  if(el) el.textContent = n2a(h)+':'+n2a(m);
+}
+tick();
+setInterval(tick, 15000);
+
+// ═══════════ AUTO LOGIN ═══════════
+if(S.currentUser) {
+  const u = S.users.find(u=>u.email===S.currentUser);
+  if(u) { loadUserData(u); goTo('app'); }
+}
+
+function editProfile() { toast('بەرنامەی داهاتوو — بەمزووانە بەردەست دەبێت 🔧','info'); }
+function showProgress() { showPage('journal'); switchJTab('stats', document.querySelector('.j-tab:nth-child(3)')); }
+</script>
+</body>
+</html>
